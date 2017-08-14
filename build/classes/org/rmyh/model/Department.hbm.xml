@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-8-14 13:19:24 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="org.rmyh.model.Department" table="DEPARTMENT">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        
+        
+         <property name="dId" type="java.lang.Integer" access="field">
+            <column name="DID" />
+        </property>
+        <property name="pId" type="java.lang.Integer" access="field">
+            <column name="PID" />
+        </property>
+        <property name="name" type="java.lang.String">
+            <column name="NAME" />
+        </property>
+        <property name="serialNum" type="java.lang.String">
+            <column name="SERIALNUM" />
+        </property>
+    </class>
+</hibernate-mapping>
