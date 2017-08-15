@@ -3,22 +3,16 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated 2017-8-15 8:39:38 by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
-    <class name="org.rmyh.model.Department" table="DEPARTMENT">
+    <class name="org.rmyh.model.Permission" table="PERMISSION">
         <id name="id" type="java.lang.Integer">
             <column name="ID" />
-            <generator class="native" />
+            <generator class="assigned" />
         </id>
-        <property name="dId" type="java.lang.Integer" access="field">
-            <column name="DID" />
-        </property>
-        <property name="pId" type="java.lang.Integer" access="field">
-            <column name="PID" />
-        </property>
         <property name="name" type="java.lang.String">
             <column name="NAME" />
         </property>
-        <property name="serialNum" type="java.lang.String">
-            <column name="SERIALNUM" />
+        <property name="url" type="java.lang.String">
+            <column name="URL" />
         </property>
     </class>
 </hibernate-mapping>

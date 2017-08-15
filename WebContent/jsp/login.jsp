@@ -1,9 +1,7 @@
 <%@ page language="java"  pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -35,7 +33,8 @@
         </head>
 
         <body>
-
+      
+       <input id="ztreeJson" type="hidden" value='${ztreeJson}'/>
         	<!-- Top content -->
         	<div class="top-content">
 
@@ -44,7 +43,6 @@
         				<div class="row">
         					<div class="col-sm-8 col-sm-offset-2 text">
         						<h1><strong>中国人民银行</strong> 审计整改核销辅助管理系统</h1>
-
         					</div>
         				</div>
         				<div class="row">
@@ -120,53 +118,82 @@
         	<script src="/shenjixitong/js/jquery.backstretch.min.js"></script>
         	<script src="/shenjixitong/js/scripts.js"></script>
         	<script src="/shenjixitong/js/jquery.ztree.all.min.js"></script>
-
+            <script src="/shenjixitong/js/jquery.json-2.4.js"></script>
         	<script type="text/javascript">
+        	var setting = {
+        			view: {
+        				dblClickExpand: true
+        			},
+        			data: {
+        				simpleData: {
+        					enable:true,
+        					idKey: "dId",
+        					pIdKey: "pId",
+        					rootPId: ""
+        				}
+        			},
+        		
+        		};
+        	
+        	
+        	$(document).ready(function () {
+                $.ajax({
+                    type: "post",
+                    contentType: "application/json",
+                    url: "http://localhost:8080/shenjixitong/login/loadZtree",
+                    data: "{}",
+                    dataType: "json",
+                    success: function (result) {
+                        var zNodes = result.result;
+                        alert(zNodes);
+                        $.fn.zTree.init($("#tree"), setting, zNodes);
+                    }
+                });
+            });
+        	
+      /*   	var ztreeJson;
+        	var zNodes;
+        	var nodes;
+        	var treeObj
+        	var t;
+        	var setting = {
+        			view: {
+        				dblClickExpand: true
+        			},
+        			data: {
+        				simpleData: {
+        					enable:true,
+        					idKey: "dId",
+        					pIdKey: "pId",
+        					rootPId: ""
+        				}
+        			},
+        		
+        		};
         		$(function(){
         			$("#form-departname").focus(function(){
         				$("#mymodal").modal("toggle");
         			});
         			
         			$("#selectTreenodeBtn").click(function(){
-        				var treeObj = $.fn.zTree.getZTreeObj("tree");
-        				var nodes = treeObj.getSelectedNodes();
+        			    treeObj = $.fn.zTree.getZTreeObj("tree");
+        				nodes = treeObj.getSelectedNodes();
         				$("#form-departname").val(nodes[0].name)
         				$('#mymodal').modal('hide');
         			});
         			
+        			ztreeJson=$("#ztreeJson").val();
+        		
+        			alert(ztreeJson);
+        		    zNodes = $.toJSON(ztreeJson);
+        			alert(zNodes);
+        			 t = $("#tree");
+        			 alert(zNodes);
+        			 t = $.fn.zTree.init(t, setting, zNodes);
+        			
         		});
-
-
-        		var zTree;
-	
-
-	var setting = {
-		view: {
-			dblClickExpand: true
-		},
-		data: {
-			simpleData: {
-				enable:true,
-				idKey: "id",
-				pIdKey: "pId",
-				rootPId: ""
-			}
-		},
-		// callback: {
-		// 	beforeClick: function(treeId, treeNode) {
-		// 		var zTree = $.fn.zTree.getZTreeObj("tree");
-		// 		if (treeNode.isParent) {
-		// 			zTree.expandNode(treeNode);
-		// 			return false;
-		// 		} else {
-					
-		// 			return true;
-		// 		}
-		// 	}
-		// }
-	};
-
-	var zNodes =[
+ */
+	/* var zNodes =[
 		{id:1, pId:0, name:"[core] 基本功能 演示", open:true},
 		{id:101, pId:1, name:"最简单的树 --  标准 JSON 数据", file:"core/standardData"},
 		{id:102, pId:1, name:"最简单的树 --  简单 JSON 数据", file:"core/simpleData"},
@@ -204,14 +231,17 @@
 		{id:601, pId:6, name:"隐藏普通节点", file:"exhide/common"},
 		{id:602, pId:6, name:"配合 checkbox 的隐藏", file:"exhide/checkbox"},
 		{id:603, pId:6, name:"配合 radio 的隐藏", file:"exhide/radio"}
-	];
+	]; */
 
-	$(document).ready(function(){
+	/* $(document).ready(function(){
 		var t = $("#tree");
+		alert(zNodes);
 		t = $.fn.zTree.init(t, setting, zNodes);
 	});
+ */
+ 
 
-        	</script>
+</script>
 
         <!--[if lt IE 10]>
             <script src="assets/js/placeholder.js"></script>

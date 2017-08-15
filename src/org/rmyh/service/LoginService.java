@@ -1,9 +1,14 @@
 package org.rmyh.service;
 
+import java.util.List;
+
 import org.rmyh.dao.LoginDao;
+import org.rmyh.model.Department;
 import org.rmyh.model.UserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class LoginService {
 	
 	@Autowired
@@ -11,6 +16,10 @@ public class LoginService {
 	
 	public UserDetail checkLogin(String username,String password,String deptSerialNum){
 		return loginDao.checkLogin(username,password,deptSerialNum);
+	}
+	
+	public List<Department> loadZtreeDept(){
+		return loginDao.loadZtreeDept();
 	}
 
 }
