@@ -34,7 +34,7 @@
 
         <body>
       
-       <input id="ztreeJson" type="hidden" value='${ztreeJson}'/>
+       
         	<!-- Top content -->
         	<div class="top-content">
 
@@ -60,6 +60,7 @@
 
         								<div class="form-group">
         									<label  for="form-username">机构名称：</label>
+        									<input id="form-departNum" type="hidden" value=""/>
         									<input type="text" name="form-username" placeholder="请选择机构名称" class="form-username form-control" id="form-departname">
         								</div>
 
@@ -120,6 +121,9 @@
         	<script src="/shenjixitong/js/jquery.ztree.all.min.js"></script>
             <script src="/shenjixitong/js/jquery.json-2.4.js"></script>
         	<script type="text/javascript">
+        	var treeObj;
+        	var nodes;
+        	var parentNode;
         	var setting = {
         			view: {
         				dblClickExpand: true
@@ -132,8 +136,32 @@
         					rootPId: ""
         				}
         			},
-        		
+        			key:{
+        				name:"name"
+        			},
+        			callback:{
+        				beforeClick: zTreeBeforeClick
+        			}
         		};
+        	
+        	function zTreeBeforeClick(treeId, treeNode, clickFlag) {
+        		return !treeNode.isParent;
+        	};
+        	
+        	$(function(){
+    			$("#form-departname").focus(function(){
+    				$("#mymodal").modal("toggle");
+    			});
+    			
+    			$("#selectTreenodeBtn").click(function(){
+    			    treeObj = $.fn.zTree.getZTreeObj("tree");
+    				nodes = treeObj.getSelectedNodes();
+    				parentNode=nodes[0].getParentNode();
+    				$("#form-departname").val(parentNode.name+nodes[0].name);
+    				$("#form-departNum").val(nodes[0].serialNum);
+    				$('#mymodal').modal('hide');
+    			});
+        	});
         	
         	
         	$(document).ready(function () {
@@ -145,102 +173,13 @@
                     dataType: "json",
                     success: function (result) {
                         var zNodes = result.result;
-                        alert(zNodes);
+                       
                         $.fn.zTree.init($("#tree"), setting, zNodes);
                     }
                 });
             });
         	
-      /*   	var ztreeJson;
-        	var zNodes;
-        	var nodes;
-        	var treeObj
-        	var t;
-        	var setting = {
-        			view: {
-        				dblClickExpand: true
-        			},
-        			data: {
-        				simpleData: {
-        					enable:true,
-        					idKey: "dId",
-        					pIdKey: "pId",
-        					rootPId: ""
-        				}
-        			},
-        		
-        		};
-        		$(function(){
-        			$("#form-departname").focus(function(){
-        				$("#mymodal").modal("toggle");
-        			});
-        			
-        			$("#selectTreenodeBtn").click(function(){
-        			    treeObj = $.fn.zTree.getZTreeObj("tree");
-        				nodes = treeObj.getSelectedNodes();
-        				$("#form-departname").val(nodes[0].name)
-        				$('#mymodal').modal('hide');
-        			});
-        			
-        			ztreeJson=$("#ztreeJson").val();
-        		
-        			alert(ztreeJson);
-        		    zNodes = $.toJSON(ztreeJson);
-        			alert(zNodes);
-        			 t = $("#tree");
-        			 alert(zNodes);
-        			 t = $.fn.zTree.init(t, setting, zNodes);
-        			
-        		});
- */
-	/* var zNodes =[
-		{id:1, pId:0, name:"[core] 基本功能 演示", open:true},
-		{id:101, pId:1, name:"最简单的树 --  标准 JSON 数据", file:"core/standardData"},
-		{id:102, pId:1, name:"最简单的树 --  简单 JSON 数据", file:"core/simpleData"},
-		{id:103, pId:1, name:"不显示 连接线", file:"core/noline"},
-		{id:104, pId:1, name:"不显示 节点 图标", file:"core/noicon"},
-		{id:105, pId:1, name:"自定义图标 --  icon 属性", file:"core/custom_icon"},
-	
-
-		{id:2, pId:0, name:"[excheck] 复/单选框功能 演示", open:false},
-		{id:201, pId:2, name:"Checkbox 勾选操作", file:"excheck/checkbox"},
-		{id:206, pId:2, name:"Checkbox nocheck 演示", file:"excheck/checkbox_nocheck"},
-		{id:207, pId:2, name:"Checkbox chkDisabled 演示", file:"excheck/checkbox_chkDisabled"},
-		{id:208, pId:2, name:"Checkbox halfCheck 演示", file:"excheck/checkbox_halfCheck"},
-	
-
-		{id:3, pId:0, name:"[exedit] 编辑功能 演示", open:false},
-		{id:301, pId:3, name:"拖拽 节点 基本控制", file:"exedit/drag"},
-		{id:302, pId:3, name:"拖拽 节点 高级控制", file:"exedit/drag_super"},
-		{id:303, pId:3, name:"用 zTree 方法 移动 / 复制 节点", file:"exedit/drag_fun"},
-	
-
-		{id:4, pId:0, name:"大数据量 演示", open:false},
-		{id:401, pId:4, name:"一次性加载大数据量", file:"bigdata/common"},
-		{id:402, pId:4, name:"分批异步加载大数据量", file:"bigdata/diy_async"},
-		{id:403, pId:4, name:"分批异步加载大数据量", file:"bigdata/page"},
-
-		{id:5, pId:0, name:"组合功能 演示", open:false},
-		{id:501, pId:5, name:"冻结根节点", file:"super/oneroot"},
-		{id:502, pId:5, name:"单击展开/折叠节点", file:"super/oneclick"},
-		{id:503, pId:5, name:"保持展开单一路径", file:"super/singlepath"},
-		{id:504, pId:5, name:"添加 自定义控件", file:"super/diydom"},
-	
-
-		{id:6, pId:0, name:"其他扩展功能 演示", open:false},
-		{id:601, pId:6, name:"隐藏普通节点", file:"exhide/common"},
-		{id:602, pId:6, name:"配合 checkbox 的隐藏", file:"exhide/checkbox"},
-		{id:603, pId:6, name:"配合 radio 的隐藏", file:"exhide/radio"}
-	]; */
-
-	/* $(document).ready(function(){
-		var t = $("#tree");
-		alert(zNodes);
-		t = $.fn.zTree.init(t, setting, zNodes);
-	});
- */
- 
-
+   
 </script>
 
         <!--[if lt IE 10]>

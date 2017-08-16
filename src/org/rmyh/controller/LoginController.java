@@ -25,12 +25,7 @@ public class LoginController {
 	
 	@RequestMapping(value="/login",method=RequestMethod.GET)
 	public ModelAndView login() {
-//		List<Department> departments=loginService.loadZtreeDept();
-//		Gson gson=new Gson();
-//		String jsonString=gson.toJson(departments);
-//		System.out.println(jsonString);
 		ModelAndView mv=new ModelAndView("login");
-		//mv.addObject("ztreeJson", jsonString);
 		return mv;
 	}
 	

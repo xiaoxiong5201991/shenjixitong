@@ -18,7 +18,7 @@ public class LoginDao extends BaseDao{
 	
 	public List<Department> loadZtreeDept(){
 		
-		String sql="select * from department";
+		String sql="select * from department order by did asc";
 		SQLQuery query=getSession().createSQLQuery(sql).addEntity(Department.class);
 		List<Department> departments=query.list();
 		return departments;
