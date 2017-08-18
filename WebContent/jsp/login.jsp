@@ -56,12 +56,12 @@
         							</div>
         						</div>
         						<div class="form-bottom">
-        							<form role="form" action="" method="post" class="login-form">
+        							<form role="form" action="http://localhost:8080/shenjixitong/login/login" method="post" class="login-form">
 
         								<div class="form-group">
         									<label  for="form-username">机构名称：</label>
-        									<input id="form-departNum" type="hidden" value=""/>
-        									<input type="text" name="form-username" placeholder="请选择机构名称" class="form-username form-control" id="form-departname">
+        									<input id="form-departNum" type="hidden" value="" name="form-departNum"/>
+        									<input type="text" name="form-departname" placeholder="请选择机构名称" class="form-username form-control" id="form-departname">
         								</div>
 
         								<div class="form-group">
@@ -74,7 +74,7 @@
         									<input type="password" name="form-password" placeholder="请输入密码" class="form-password form-control" id="form-password">
         								</div>
 
-        								<button type="submit" class="btn">登录</button>
+        								<button type="button" class="btn" id="loginBtn">登录</button>
         							</form>
         						</div>
 
@@ -178,6 +178,27 @@
                     }
                 });
             });
+        	
+         	$("#loginBtn").click(function(){
+        		var departNum=$("#form-departNum").val();
+        		var username=$("#form-username").val();
+        		var password=$("#form-password").val();
+        		$.ajax({
+        			  type: 'POST',
+        			  data:{'departNum':departNum,'username':username,'password':password},
+        			  url: "http://localhost:8080/shenjixitong/login/login",
+        			  success: function(data,status){
+        				  if(data.result==true){
+      				    	  window.location.href=data.url
+      				    }
+      				      else{
+      				    	alert("机构名称或者用户名或者密码错误，请重新输入");
+      				    }
+        			  },
+        			  dataType: "json"
+        			});
+        				  
+        	}); 
         	
    
 </script>

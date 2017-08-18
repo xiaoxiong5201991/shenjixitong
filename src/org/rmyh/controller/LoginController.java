@@ -1,11 +1,13 @@
 package org.rmyh.controller;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.rmyh.model.Department;
-import org.rmyh.model.UserDetail;
+import org.rmyh.model.User;
 import org.rmyh.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,6 +31,15 @@ public class LoginController {
 		return mv;
 	}
 	
+	
+	@RequestMapping(value="/index",method=RequestMethod.GET)
+	public ModelAndView index() {
+		ModelAndView mv=new ModelAndView("index");
+		return mv;
+	}
+	
+	
+	
 	@ResponseBody
 	@RequestMapping(value="/loadZtree",method=RequestMethod.POST)
 	public String loadZtree() {
@@ -39,14 +50,40 @@ public class LoginController {
 		return "{\"result\":"+jsonString+"}";
 	}
 	
-	
+	@ResponseBody
 	@RequestMapping(value="/login",method=RequestMethod.POST)
-	public String doLogin(HttpServletRequest request) {
+	public Map<String,Object> doLogin(HttpServletRequest request) {
+		boolean result=false;
+		String url=null;
+		Map<String,Object> resultMap=new  LinkedHashMap<String, Object>();
 		String username = request.getParameter("username");  
         String password = request.getParameter("password");  
-        String deptSerialNum=request.getParameter("deptSerialNum");
-        UserDetail currentUser=loginService.checkLogin(username, password, deptSerialNum);
-		return "index";
+        String deptSerialNum=request.getParameter("departNum");
+        System.out.println(username+password+deptSerialNum);
+        User currentUser=loginService.checkLogin(username, password, deptSerialNum);
+        if(currentUser!=null){
+        	result=true;
+        	url = request.getContextPath()+"/login/index";
+        	request.getSession().setAttribute("userDetail", currentUser);
+        }
+        resultMap.put("result", result);
+    	resultMap.put("url",url);
+    	return resultMap;
 	}
+
+/*	@RequestMapping(value="/login",method=RequestMethod.POST)
+	public ModelAndView doLogin(HttpServletRequest request) {
+		boolean result=false;
+		String username = request.getParameter("username");  
+        String password = request.getParameter("password");  
+        String deptSerialNum=request.getParameter("departNum");
+        System.out.println(username+password+deptSerialNum);
+        User currentUser=loginService.checkLogin(username, password, deptSerialNum);
+        if(currentUser!=null){
+        	result=true;
+        	request.getSession().setAttribute("userDetail", currentUser);
+        }
+		return "{\"result\":"+result+"}";
+	}*/
 
 }

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.rmyh.model.UserDetail;
+import org.rmyh.model.User;
 
 public class LoginFilter implements Filter{
 
@@ -28,11 +28,12 @@ public class LoginFilter implements Filter{
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 		HttpSession session = request.getSession();
-		UserDetail userDetail = (UserDetail) session.getAttribute("userDetail");
+		User userDetail = (User) session.getAttribute("userDetail");
 		if (userDetail != null) {
 			chain.doFilter(request, response);
 		} else {
-			request.getRequestDispatcher("http://localhost:8080/shenjixitong/login/login").forward(request, response);
+			System.out.println("test");
+			request.getRequestDispatcher("/login/login").forward(request, response);
 		}
 		
 	}
